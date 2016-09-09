@@ -9,7 +9,7 @@ process.env.TWILIO_CONFIGURATION_SID
 require('dotenv').load();
 var http = require('http');
 var path = require('path');
-var AccessToken = require('twilio').AccessToken;
+var AccessToken = require('twilio').jwt.AccessToken;
 var ConversationsGrant = AccessToken.ConversationsGrant;
 var express = require('express');
 var randomUsername = require('./randos');
@@ -25,7 +25,7 @@ parameter.
 */
 app.get('/token', function(request, response) {
     var identity = randomUsername();
-    
+
     // Create an access token which we will sign and return to the client,
     // containing the grant we just created
     var token = new AccessToken(
