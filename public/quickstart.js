@@ -1,3 +1,4 @@
+var messageCenter = require('./message-center');
 var conversationsClient;
 var activeConversation;
 var previewMedia;
@@ -12,8 +13,8 @@ $.getJSON('/token', function(data) {
     identity = data.identity;
     var accessManager = new Twilio.AccessManager(data.token);
 
-    // Check the browser console to see your generated identity. 
-    // Send an invite to yourself if you want! 
+    // Check the browser console to see your generated identity.
+    // Send an invite to yourself if you want!
     console.log(identity);
 
     // Create a Conversations Client and connect to Twilio
@@ -55,6 +56,7 @@ function clientConnected() {
 
 // Conversation is live
 function conversationStarted(conversation) {
+    messageCenter.notify('start');
     log('In an active Conversation');
     activeConversation = conversation;
     // Draw local video, if not already previewing
@@ -75,6 +77,8 @@ function conversationStarted(conversation) {
 
     // When the conversation ends, stop capturing local video
     conversation.on('disconnected', function (conversation) {
+        messageCenter.notify('stop');
+        console.log(conversation);
         log("Connected to Twilio. Listening for incoming Invites as '" + conversationsClient.identity + "'");
         conversation.localMedia.stop();
         conversation.disconnect();

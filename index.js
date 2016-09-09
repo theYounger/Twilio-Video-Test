@@ -9,7 +9,8 @@ process.env.TWILIO_CONFIGURATION_SID
 require('dotenv').load();
 var http = require('http');
 var path = require('path');
-var AccessToken = require('twilio').jwt.AccessToken;
+var twilio = require('twilio');
+var AccessToken = twilio.jwt.AccessToken;
 var ConversationsGrant = AccessToken.ConversationsGrant;
 var express = require('express');
 var randomUsername = require('./randos');
